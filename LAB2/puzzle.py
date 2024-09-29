@@ -3,25 +3,23 @@ import copy
 import time
 from collections import deque
 
-# Define the goal state for Puzzle-8
 GOAL_STATE = np.array([[1, 2, 3],
                        [4, 5, 6],
                        [7, 8, 0]])
 
-# Directions for sliding tiles (up, down, left, right)
 DIRECTIONS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 class Puzzle8:
     def __init__(self, state):
         self.state = state
-        self.blank_pos = tuple(np.argwhere(state == 0)[0])  # Position of the blank tile
+        self.blank_pos = tuple(np.argwhere(state == 0)[0])
 
     def get_possible_moves(self):
         moves = []
         x, y = self.blank_pos
         for dx, dy in DIRECTIONS:
             new_x, new_y = x + dx, y + dy
-            if 0 <= new_x < 3 and 0 <= new_y < 3:  # Check if the move is within bounds
+            if 0 <= new_x < 3 and 0 <= new_y < 3:
                 moves.append((new_x, new_y))
         return moves
 
@@ -29,7 +27,6 @@ class Puzzle8:
         new_x, new_y = new_pos
         x, y = self.blank_pos
         new_state = copy.deepcopy(self.state)
-        # Swap the blank tile with the target tile
         new_state[x, y], new_state[new_x, new_y] = new_state[new_x, new_y], new_state[x, y]
         return Puzzle8(new_state)
 
@@ -40,10 +37,9 @@ class Puzzle8:
         return str(self.state)
 
 def uniform_cost_search(initial_state):
-    """Perform Uniform Cost Search on the Puzzle-8."""
     start_time = time.time()
     visited = set()
-    queue = deque([(initial_state, [])])  # Queue of (state, path)
+    queue = deque([(initial_state, [])])
 
     while queue:
         current_state, path = queue.popleft()
@@ -59,10 +55,9 @@ def uniform_cost_search(initial_state):
             if tuple(map(tuple, new_state.state)) not in visited:
                 queue.append((new_state, path + [current_state]))
     
-    return None  # No solution found
+    return None
 
 def iterative_deepening_search(initial_state, max_depth):
-    """Perform Iterative Deepening Search on the Puzzle-8."""
     def dls(state, depth, path):
         if state.is_goal():
             return path + [state]
@@ -80,9 +75,8 @@ def iterative_deepening_search(initial_state, max_depth):
         result = dls(initial_state, depth, [])
         if result is not None:
             return result
-    return None  # No solution found
+    return None
 
-# Example Usage
 if __name__ == "__main__":
     initial_state = Puzzle8(np.array([[1, 2, 3],
                                        [4, 0, 5],
@@ -91,7 +85,6 @@ if __name__ == "__main__":
     print("Initial State:")
     print(initial_state)
 
-    # Uniform Cost Search
     print("Solving using Uniform Cost Search...")
     solution = uniform_cost_search(initial_state)
     if solution:
@@ -99,9 +92,8 @@ if __name__ == "__main__":
         for step in solution:
             print(step)
 
-    # Iterative Deepening Search
     print("Solving using Iterative Deepening Search...")
-    max_depth = 20  # Set maximum depth for IDS
+    max_depth = 20
     solution_ids = iterative_deepening_search(initial_state, max_depth)
     if solution_ids:
         print("Solution found with Iterative Deepening Search:")

@@ -309,16 +309,3 @@ print(f"Number of nodes in frontier by Agent2: {num_in_frontier_agent2 // 5}")
 
 
 
-# output = "Reached goal!
-# 49.262513637542725
-# Reached goal!
-# 48.312440395355225
-# Reached goal!
-# 51.678539514541626
-# Reached goal!
-# 50.27625584602356
-# Reached goal!
-# 50.631266355514526
-# Average time: 50.032203149795535
-# Number of nodes explored: 33353
-# Number of nodes in frontier: 213"
